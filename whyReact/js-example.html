@@ -15,7 +15,8 @@
     const svelte = document.getElementById('svelte');
 
     function clicked(text) {
-      console.log('clicked', text);
+      // title의 innerText를 text로 넣어준다.
+      title.innerText = `I like ${text}`;
     }
     react.addEventListener('click', (e) => clicked(e.target.innerText));
     angular.addEventListener('click', (e) => clicked(e.target.innerText));
