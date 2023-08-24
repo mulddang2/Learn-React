@@ -2,54 +2,53 @@ import styled from "@emotion/styled";
 import {useNavigate} from "react-router-dom";
 import PokeNameChip from "../Common/PokeNameChip";
 import PokeMarkChip from "../Common/PokeMarkChip";
-import {PokeImageSkeleton} from "../Common/PokeImageSkeleton";
+import { PokemonDetailType, fetchPokemonsDetail } from "../Service/PokemonService";
+import { useEffect, useState } from 'react';
 
-const PokeCard = () => {
+
+interface PokeCardProps {
+  name: string,
+}
+
+const PokeCard = (props: PokeCardProps) => {
   const navigate = useNavigate();
-
-  const pokemon = {
-    id: 1,
-    koreanName: '이상해씨',
-    name: '영어이름',
-    color: 'blue'
-  }
+  // TODO: | null 은 무슨 의미 일까..?
+  const [pokemon, setPokemon] = useState<PokemonDetailType | null>(null)
 
   const handleClick = () => {
-    navigate(`/pokemon/${pokemon?.name}`)
+    navigate(`/pokemon/${props.name}`)
   }
 
+  useEffect(() => {
+    (async () => {
+      const detail = await fetchPokemonsDetail(props.name)
+      setPokemon(detail)
+
+  })()}, [props.name])
+
+  // NOTE: pokemon 정보의 초기값이 null 이기때문에, 정보를 제대로 가져오기 전까지를 방지하기 위해서,, null일때 화면에 어떻게 표시해줄지 처리
   if(!pokemon) {
     return (
-      <Container color={'#32CD32'}>
-        <Header>
-          <PokeNameChip name={'포켓몬'} id={0} numberColor={'#32CD32'} />
-        </Header>
-        <Body>
-          <PokeImageSkeleton/>
-        </Body>
-        <Footer>
-          <PokeMarkChip/>
-        </Footer>
-      </Container>
+      null // TODO: 화면이 로딩중일 때 표시
     )
   }
 
   return (
-    <Container onClick={handleClick} color={pokemon.color}>
+    <Container onClick={handleClick}>
       <Header>
-        <PokeNameChip name={pokemon.koreanName} numberColor={pokemon.color} id={pokemon.id}/>
+        <PokeNameChip name={pokemon.name} id={pokemon.id}/>
       </Header>
       <Body>
-        <Image src={'https://cdn.econovill.com/news/photo/201603/285365_95988_038.png'} alt={pokemon.koreanName}/>
+        <Image src={pokemon.images.dreamWorldFront} alt={pokemon.name}/>
       </Body>
       <Footer>
         <PokeMarkChip/>
       </Footer>
     </Container>
-  );
+  )
 }
 
-const Container = styled.li<{ color: string }>`
+const Container = styled.li`
   display: flex;
   flex-direction: column;
   width: 250px;
