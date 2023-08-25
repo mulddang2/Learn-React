@@ -11,39 +11,29 @@
     src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"
     crossorigin
   ></script>
-  <script>
-    function clickedButton () {
-      console.log('clicked')
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    function clickedButton() {
+      console.log('clicked');
     }
 
-
-
-    // 1. dom을 script로 생성한다.
-    const react = React.createElement('button', { id: 'react', onClick: clickedButton}, 'React'); // button 태그가 내부적으로 생김.
-    const angular = React.createElement('button', { id: 'angular', onClick: clickedButton }, 'Angular'); // button 태그가 내부적으로 생김.
-    const vue = React.createElement('button', { id: 'vue', onClick: clickedButton }, 'Vue'); // button 태그가 내부적으로 생김.
-    const svelte = React.createElement('button', { id: 'svelte', onClick: clickedButton }, 'Svelte'); // button 태그가 내부적으로 생김.
-
-    // 5. title로 I like FE 추가
-    const title = React.createElement(
-      'span',
-      { id: 'title' },
-      'I like FrontEnd'
-    );
-
-    // 2. 버튼을 루트에 붙이고 싶어, 그러기 위해서 root를 정의하자
     const root = document.getElementById('root');
-    // 3. 이제 root에 붙이자
+    const Title = () => <span>I like Front-end</span>
+    const ReactButton =() => <button onClick={clickedButton} style={{fontSize: '32px', color: 'red'}}>React</button>;
+    const AngularButton = () => <button onClick={clickedButton}>Angular</button>
+    const VueButton = () => <button onClick={clickedButton}>Vue</button>
+    const SvelteButton = () => <button onClick={clickedButton}>Svelte</button>
 
-    //4. 버튼들을 한번에 뭉쳐서 불러오고 싶어서.. container를 만들었다.
-    // 6. title을 추가했으니, 배열에 담아줘야 dom에 그려진다.
-    const container = React.createElement('div', null, [
-      title,
-      react,
-      angular,
-      vue,
-      svelte,
-    ]);
-    ReactDOM.render(container, root);
+    const Container = ()  => 
+      <div>
+        <Title/>
+        <ReactButton  />
+        <AngularButton />
+        <VueButton />
+        <SvelteButton />
+
+      </div>
+
+    ReactDOM.render(<Container />, root);
   </script>
 </html>
