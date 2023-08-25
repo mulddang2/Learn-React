@@ -15,6 +15,13 @@
   <script type="text/babel">
     let titleName = 'I like Front-end';
 
+    /* 
+NOTE: State의 특징
+      - 전역적으로 사용할 수 없음. 하나의 컴포넌트 안에서만 사용할 수 있는 독립적인 상태입니다.
+
+
+*/
+
     function clickedButton(text) {
       // text => innerText
       console.log('clicked: ', text);
@@ -44,15 +51,21 @@
       <button onClick={(e) => clickedButton(e.target.innerText)}>Svelte</button>
     );
 
-    const Container = () => (
-      <div>
-        <Title />
-        <ReactButton />
-        <AngularButton />
-        <VueButton />
-        <SvelteButton />
-      </div>
-    );
+    const Container = () => {
+      const titleState = React.useState(0)
+      console.log(titleState[0]) // 초기값
+      console.log(titleState[1]) // setState(원하는 값) -> titleState[0]이 변경된다
+      
+      return (
+        <div>
+          <Title />
+          <ReactButton />
+          <AngularButton />
+          <VueButton />
+          <SvelteButton />
+        </div>
+      );
+    };
 
     function render() {
       ReactDOM.render(<Container />, root);
