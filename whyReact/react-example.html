@@ -12,11 +12,17 @@
     crossorigin
   ></script>
   <script>
+    function clickedButton () {
+      console.log('clicked')
+    }
+
+
+
     // 1. dom을 script로 생성한다.
-    const react = React.createElement('button', { id: 'react' }, 'React'); // button 태그가 내부적으로 생김.
-    const angular = React.createElement('button', { id: 'angular' }, 'Angular'); // button 태그가 내부적으로 생김.
-    const vue = React.createElement('button', { id: 'vue' }, 'Vue'); // button 태그가 내부적으로 생김.
-    const svelte = React.createElement('button', { id: 'svelte' }, 'Svelte'); // button 태그가 내부적으로 생김.
+    const react = React.createElement('button', { id: 'react', onClick: clickedButton}, 'React'); // button 태그가 내부적으로 생김.
+    const angular = React.createElement('button', { id: 'angular', onClick: clickedButton }, 'Angular'); // button 태그가 내부적으로 생김.
+    const vue = React.createElement('button', { id: 'vue', onClick: clickedButton }, 'Vue'); // button 태그가 내부적으로 생김.
+    const svelte = React.createElement('button', { id: 'svelte', onClick: clickedButton }, 'Svelte'); // button 태그가 내부적으로 생김.
 
     // 5. title로 I like FE 추가
     const title = React.createElement(
