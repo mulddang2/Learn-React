@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
-import {FaQuestion} from "react-icons/fa";
+import { LiaQuestionSolid } from 'react-icons/lia'
 
-export const PokeImageSkeleton = styled(FaQuestion)`
+export const PokeImageSkeleton = styled(LiaQuestionSolid)`
   font-size: 64px;
-  color: #fc0;
+  color: #ffca09;
 `
