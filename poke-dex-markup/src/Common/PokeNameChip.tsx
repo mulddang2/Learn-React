@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 interface PokeNameChipProps {
   name: string;
   id: number;
+  color: string;
 }
 
 const PokeNameChip = (props: PokeNameChipProps) => {
@@ -18,18 +19,18 @@ const PokeNameChip = (props: PokeNameChipProps) => {
       return numberString;
     }
     // 4. 아닐 때는, for문 돌면서 0 추가해주기
-    let result = ''
-    for(let i = 0; i < digits - numberString.length; i++) {
+    let result = '';
+    for (let i = 0; i < digits - numberString.length; i++) {
       // 0을 채워준다
-      result += '0'
+      result += '0';
     }
-    return `${result}${numberString}`
+    return `${result}${numberString}`;
   };
   return (
     <Chip>
-      <NumberText>
+      <NumberChip color={props.color}>
         <Number>{renderNumber(props.id)}</Number>
-      </NumberText>
+      </NumberChip>
       <Title>{props.name}</Title>
     </Chip>
   );
@@ -44,14 +45,14 @@ const Chip = styled.div`
   box-shadow: 0.5px 0.5px 0 0 #c0c0c0;
 `;
 
-const Number = styled.div`
+const NumberChip = styled.div<{ color: string }>`
   padding: 4px 6px;
   background-color: ${(props) => props.color};
   opacity: 0.8;
   border-radius: 16px;
 `;
 
-const NumberText = styled.label`
+const Number = styled.label`
   opacity: 1;
 `;
 
