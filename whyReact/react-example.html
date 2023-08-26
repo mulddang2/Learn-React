@@ -43,19 +43,25 @@ NOTE: State의 특징
     //   <button onClick={(e) => clickedButton(e.target.innerText)}>Svelte</button>
     // );
 
+        
+    const Title = (props) => <span>I like {props.titleProps}</span>
+
+// NOTE: 부모컴포넌트인 Container에서 자식 컴포넌트 Title로 데이터를 전달할 수 있는 값이 props 이다.
+
     const Container = () => {
-      const [title, setTitle] = React.useState('I like Front-end');
+      const [title, setTitle] = React.useState('Front-end');
 
       function clickedButton(text) {
         // text => innerText
         console.log('clicked: ', text);
         
-        setTitle(`I like ${text}`)
+        setTitle(text)
       }
 
       return (
+
         <div>
-          <span>{title}</span>
+          <Title titleProps={title} />
           <button
             onClick={(e) => clickedButton(e.target.innerText)}
             style={{ fontSize: '32px', color: 'red' }}
