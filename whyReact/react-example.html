@@ -43,10 +43,10 @@ NOTE: State의 특징
     //   <button onClick={(e) => clickedButton(e.target.innerText)}>Svelte</button>
     // );
 
-        
-    const Title = (props) => <span>I like {props.titleProps}</span>
+    const Title = (props) => <span>I like {props.titleProps}</span>;
+    const Button = (props) => <button onClick={(e) => props.onClick(e.target.innerText)} style={props.style}>{props.children}</button>;
 
-// NOTE: 부모컴포넌트인 Container에서 자식 컴포넌트 Title로 데이터를 전달할 수 있는 값이 props 이다.
+    // NOTE: 부모컴포넌트인 Container에서 자식 컴포넌트 Title로 데이터를 전달할 수 있는 값이 props 이다.
 
     const Container = () => {
       const [title, setTitle] = React.useState('Front-end');
@@ -54,30 +54,17 @@ NOTE: State의 특징
       function clickedButton(text) {
         // text => innerText
         console.log('clicked: ', text);
-        
-        setTitle(text)
+
+        setTitle(text);
       }
 
       return (
-
         <div>
           <Title titleProps={title} />
-          <button
-            onClick={(e) => clickedButton(e.target.innerText)}
-            style={{ fontSize: '32px', color: 'red' }}
-          >
-            React
-          </button>
-          <button onClick={(e) => clickedButton(e.target.innerText)}>
-            Angular
-          </button>
-          <button onClick={(e) => clickedButton(e.target.innerText)}>
-            Vue
-          </button>
-
-          <button onClick={(e) => clickedButton(e.target.innerText)}>
-            Svelte
-          </button>
+          <Button onClick={clickedButton} style={{ fontSize: '30px'}}>React</Button>
+          <Button onClick={clickedButton} style={{ color: 'red'}}>Angular</Button>
+          <Button onClick={clickedButton} style={{ fontSize: '12px'}}>Vue</Button>
+          <Button onClick={clickedButton} style={{ color: 'green'}}>Svelte</Button>
         </div>
       );
     };
