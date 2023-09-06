@@ -7,9 +7,9 @@ interface PokeNameChipProps {
 }
 
 const PokeNameChip = (props:PokeNameChipProps) => {
-  const renderNumber = (number:number) => {
+  const renderNumber = (id:number) => {
     const digits = 3;
-    const numberString = number.toString();
+    const numberString = id.toString();
 
     if (numberString.length >= digits) {
       return numberString

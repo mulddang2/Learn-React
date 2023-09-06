@@ -1,46 +1,52 @@
-import {useParams} from "react-router-dom";
-import PokeMarkChip from "../Common/PokeMarkChip";
-import styled from "@emotion/styled";
-import {PokeImageSkeleton} from "../Common/PokeImageSkeleton";
+import { useParams } from 'react-router-dom';
+import PokeMarkChip from '../Common/PokeMarkChip';
+import styled from '@emotion/styled';
+import { PokeImageSkeleton } from '../Common/PokeImageSkeleton';
+import {
+  PokemonDetailType,
+  fetchPokemonsDetail,
+} from '../Service/pokemonService';
+import { useEffect, useState } from 'react';
 
 const PokemonDetail = () => {
-  const { name } = useParams()
-  const pokemon = {
-    id: 1,
-    koreanName: '이상해씨',
-    name: name,
-    color: 'blue',
-    type: '타입',
-    height: 10,
-    weight: 10,
-    baseStats: [{
-      name: 'hp',
-      value: 45
-    }, {
-      name: 'attack',
-      value: 50
-    }]
-  }
+  // NOTE: Url의 param을 갖고 올 수 있음
+  const { name } = useParams();
+  const [pokemon, setPokemon] = useState<PokemonDetailType | null>(null);
 
-  if(!pokemon) {
+  useEffect(() => {
+    if (!name) {
+      return;
+    }
+
+    (async () => {
+      const detail = await fetchPokemonsDetail(name);
+      setPokemon(detail);
+    })();
+  }, [name]);
+
+  if (!name || !pokemon) {
     return (
       <Container>
         <ImageContainer>
-          <PokeImageSkeleton/>
+          <PokeImageSkeleton />
         </ImageContainer>
+        <Divider />
         <Footer>
-          <PokeMarkChip/>
+          <PokeMarkChip />
         </Footer>
       </Container>
-    )
+    );
   }
 
   return (
     <Container>
       <ImageContainer>
-        <Image src={'https://cdn.econovill.com/news/photo/201603/285365_95988_038.png'} alt={pokemon.koreanName}/>
+        <Image
+          src={pokemon.images.dreamWorldFront}
+          alt={pokemon.koreanName}
+        />
       </ImageContainer>
-      <Divider/>
+      <Divider />
       <Body>
         <h2>기본 정보</h2>
         <Table>
@@ -55,7 +61,7 @@ const PokemonDetail = () => {
             </TableRow>
             <TableRow>
               <TableHeader>타입</TableHeader>
-              <td>{pokemon.type.toString()}</td>
+              <td>{pokemon.types.toString()}</td>
             </TableRow>
             <TableRow>
               <TableHeader>키</TableHeader>
@@ -70,30 +76,28 @@ const PokemonDetail = () => {
         <h2>능력치</h2>
         <Table>
           <tbody>
-          {
-            pokemon.baseStats.map(stat => (
+            {pokemon.baseStats.map((stat) => (
               <TableRow key={stat.name}>
                 <TableHeader>{stat.name}</TableHeader>
                 <td>{stat.value}</td>
               </TableRow>
-            ))
-          }
+            ))}
           </tbody>
         </Table>
       </Body>
       <Footer>
-        <PokeMarkChip/>
+        <PokeMarkChip />
       </Footer>
     </Container>
-  )
-}
+  );
+};
 
 const Container = styled.section`
   margin: 16px 32px;
-  border: 1px solid #C0C0C0;
+  border: 1px solid #c0c0c0;
   border-radius: 16px;
-  box-shadow: 1px 1px 3px 1px #C0C0C0;
-`
+  box-shadow: 1px 1px 3px 1px #c0c0c0;
+`;
 
 const ImageContainer = styled.section`
   display: flex;
@@ -102,53 +106,54 @@ const ImageContainer = styled.section`
   align-items: center;
   min-height: 350px;
   margin: 8px 0;
-`
+`;
 
 const Image = styled.img`
   width: 350px;
   height: 350px;
-`
+`;
 
 const Divider = styled.hr`
   margin: 32px;
   border-style: none;
-  border-top: 1px dotted #D3D3D3;
-`
+  border-top: 1px dotted #d3d3d3;
+`;
 
 const Body = styled.section`
   margin: 0 32px;
-`
+`;
 
 const Table = styled.table`
   width: 100%;
   margin: 0 auto 1rem;
   border-collapse: collapse;
   border-spacing: 0;
-  
-  th, td {
+
+  th,
+  td {
     padding: 6px 12px;
   }
-`
+`;
 
 const TableRow = styled.tr`
   border-width: 1px 0;
   border-style: solid;
   border-color: #f0f0f0;
-`
+`;
 
 const TableHeader = styled.th`
   color: #737373;
-  font-size: .875rem;
+  font-size: 0.875rem;
   font-weight: normal;
   text-align: left;
   width: 1px;
   white-space: nowrap;
-`
+`;
 
 const Footer = styled.section`
   display: flex;
   flex-direction: row;
   margin: 32px 16px;
-`
+`;
 
-export default PokemonDetail
+export default PokemonDetail;
