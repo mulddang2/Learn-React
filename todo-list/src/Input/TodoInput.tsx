@@ -1,23 +1,40 @@
 import { RiChatNewLine } from 'react-icons/ri';
 import styles from './TodoInput.module.css';
 import { ChangeEvent, FormEvent } from 'react';
+import {
+  useInputTodoDispatch,
+  useInputTodoState,
+  useTodoDispatch,
+} from '../Todo/TodoProvider';
 
-interface TodoInputProps {
-  text: string;
-  onTextChange: (text: string) => void;
-  onSubmit: () => void;
-}
+const TodoInput = () => {
+  const inputDispatch = useInputTodoDispatch();
+  const inputState = useInputTodoState();
+  const todoDispatch = useTodoDispatch();
 
-const TodoInput = (props: TodoInputProps) => {
   const handleInputChange = (e: ChangeEvent<HTMLInputElement>) => {
-    props.onTextChange(e.target.value);
+    inputDispatch({
+      type: 'change',
+      payload: e.target.value,
+    });
   };
 
-  const handleSubmit = (e:FormEvent) => {
+  const handleSubmit = (e: FormEvent) => {
     // NOTE: form submit 시, 엔터누르면 url 주소 끝에 /? 생기면서 새로고침됨......... 이거 막으려고 e.preventDefault() 사용함
     e.preventDefault();
-    props.onSubmit()
-  }
+    if (!inputState.text) return;
+
+    todoDispatch({
+      type: 'add',
+      payload: {
+        text: inputState.text,
+      },
+    });
+    // NOTE: 해야할 Todo 초기화
+    inputDispatch({
+      type: 'clear',
+    });
+  };
 
   return (
     <section className={styles.container}>
@@ -25,7 +42,7 @@ const TodoInput = (props: TodoInputProps) => {
         <input
           className={styles.input}
           placeholder='해야할 Todo'
-          value={props.text}
+          value={inputState.text}
           onChange={handleInputChange}
         />
         <button type='submit' className={styles.enter}>

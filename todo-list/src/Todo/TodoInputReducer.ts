@@ -1,9 +1,9 @@
-type TodoInputStateType = {
+export type TodoInputStateType = {
   text: string;
 };
 
 // change, clear 정도의 액션
-type TodoInputActionType =
+export type TodoInputActionType =
   | {
       type: 'change';
       payload: string;
