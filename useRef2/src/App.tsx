@@ -44,13 +44,18 @@ function App() {
     };
     // NOTE: 방법 1. 원본 복사해서 변경 setUsers([...users, user]);
     // NOTE 방법 2. 원본 유지하는 concat 메서드 사용
-    setUsers(users.concat(user))
+    setUsers(users.concat(user));
 
     setInputs({
       username: '',
       email: '',
     });
     nextId.current += 1;
+  };
+
+  const onRemove = (id) => {
+    // userid가 id 인 것을 제거한다.
+    setUsers(users.filter((user) => user.id !== id));
   };
 
   return (
@@ -61,7 +66,7 @@ function App() {
         onChange={onChange}
         onCreate={onCreate}
       />
-      <UserList users={users} />
+      <UserList users={users} onRemove={onRemove}/>
     </>
   );
 }
