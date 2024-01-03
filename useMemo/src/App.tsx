@@ -1,6 +1,7 @@
 import React, { useCallback, useMemo, useReducer, useRef } from 'react';
 import UserList from './UserList';
 import CreateUser from './CreateUser';
+import useInputs from './hooks/useInputs';
 
 function countActiveUsers(users) {
   console.log('활성 사용자 수를 세는중...');
@@ -8,10 +9,6 @@ function countActiveUsers(users) {
 }
 
 const initialState = {
-  inputs: {
-    username: '',
-    email: '',
-  },
   users: [
     {
       id: 1,
@@ -71,6 +68,9 @@ function reducer(state, action) {
 }
 
 function App() {
+  // NOTE: 커스텀 훅 사용하기
+  const [{ username, email }, onChange, reset] = useInputs({ username: '', email: '' });
+
   /*
   NOTE: 
   state: 컴포넌트에서 사용 할 수 있는 상태
@@ -81,16 +81,6 @@ dispatch: 액션을 발생시키는 함수
   const nextId = useRef(4);
 
   const { users } = state;
-  const { username, email } = state.inputs;
-
-  const onChange = useCallback((e) => {
-    const { name, value } = e.target;
-    dispatch({
-      type: 'CHANGE_INPUT',
-      name,
-      value,
-    });
-  }, []);
 
   const onCreate = useCallback(() => {
     dispatch({
@@ -101,8 +91,9 @@ dispatch: 액션을 발생시키는 함수
         username,
       },
     });
+    reset();
     nextId.current += 1;
-  }, [username, email]);
+  }, [username, email, reset]);
 
   const onToggle = useCallback((id) => {
     dispatch({
