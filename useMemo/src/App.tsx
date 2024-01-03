@@ -1,93 +1,125 @@
-import React, { useRef, useState, useMemo, useCallback } from 'react';
+import React, { useCallback, useMemo, useReducer, useRef } from 'react';
 import UserList from './UserList';
 import CreateUser from './CreateUser';
 
 function countActiveUsers(users) {
   console.log('활성 사용자 수를 세는중...');
-  return users.filter(user => user.active).length;
+  return users.filter((user) => user.active).length;
 }
 
-/**
- * NOTE: 
- * 1. useCallback 왜 사용하나?
- * - props가 바뀌지 않았으면 virtual DOM에 새로 렌더링 하는 것 조차 안하고 싶어서
- * 2. 사용법:
- * - useCallback(함수, [함수안에 쓰는 모든 상태])
- */
-
-
-function App() {
-  const [inputs, setInputs] = useState({
+const initialState = {
+  inputs: {
     username: '',
-    email: ''
-  });
-  const { username, email } = inputs;
-  const onChange = useCallback(
-    e => {
-      const { name, value } = e.target;
-      setInputs({
-        ...inputs,
-        [name]: value
-      });
-    },
-    [inputs]
-  );
-  const [users, setUsers] = useState([
+    email: '',
+  },
+  users: [
     {
       id: 1,
       username: 'velopert',
       email: 'public.velopert@gmail.com',
-      active: true
+      active: true,
     },
     {
       id: 2,
       username: 'tester',
       email: 'tester@example.com',
-      active: false
+      active: false,
     },
     {
       id: 3,
       username: 'liz',
       email: 'liz@example.com',
-      active: false
-    }
-  ]);
+      active: false,
+    },
+  ],
+};
 
+function reducer(state, action) {
+  // NOTE: 현재상태와 액션객체를 받아서, 새로운 상태를 반환해주는 함수
+  switch (action.type) {
+    case 'CHANGE_INPUT':
+      return {
+        ...state,
+        inputs: {
+          ...state.inputs,
+          [action.name]: action.value,
+        },
+      };
+
+    case 'CREATE_USER':
+      return {
+        inputs: initialState.inputs,
+        users: state.users.concat(action.user),
+      };
+
+    case 'TOGGLE_USER':
+      return {
+        ...state,
+        users: state.users.map((user) =>
+          user.id === action.id ? { ...user, active: !user.active } : user
+        ),
+      };
+
+    case 'REMOVE_USER':
+      return {
+        ...state,
+        users: state.users.filter((user) => user.id !== action.id),
+      };
+    default:
+      return state;
+  }
+}
+
+function App() {
+  /*
+  NOTE: 
+  state: 컴포넌트에서 사용 할 수 있는 상태
+dispatch: 액션을 발생시키는 함수
+  */
+
+  const [state, dispatch] = useReducer(reducer, initialState);
   const nextId = useRef(4);
-  const onCreate = useCallback(() => {
-    const user = {
-      id: nextId.current,
-      username,
-      email
-    };
-    setUsers(users.concat(user));
 
-    setInputs({
-      username: '',
-      email: ''
+  const { users } = state;
+  const { username, email } = state.inputs;
+
+  const onChange = useCallback((e) => {
+    const { name, value } = e.target;
+    dispatch({
+      type: 'CHANGE_INPUT',
+      name,
+      value,
+    });
+  }, []);
+
+  const onCreate = useCallback(() => {
+    dispatch({
+      type: 'CREATE_USER',
+      user: {
+        id: nextId.current,
+        email,
+        username,
+      },
     });
     nextId.current += 1;
-  }, [users, username, email]);
+  }, [username, email]);
 
-  const onRemove = useCallback(
-    id => {
-      // user.id 가 파라미터로 일치하지 않는 원소만 추출해서 새로운 배열을 만듬
-      // = user.id 가 id 인 것을 제거함
-      setUsers(users.filter(user => user.id !== id));
-    },
-    [users]
-  );
-  const onToggle = useCallback(
-    id => {
-      setUsers(
-        users.map(user =>
-          user.id === id ? { ...user, active: !user.active } : user
-        )
-      );
-    },
-    [users]
-  );
+  const onToggle = useCallback((id) => {
+    dispatch({
+      type: 'TOGGLE_USER',
+      id,
+    });
+  }, []);
+
+  const onRemove = useCallback((id) => {
+    dispatch({
+      type: 'REMOVE_USER',
+      id,
+    });
+  }, []);
+
   const count = useMemo(() => countActiveUsers(users), [users]);
+
   return (
     <>
       <CreateUser
@@ -96,7 +128,7 @@ function App() {
         onChange={onChange}
         onCreate={onCreate}
       />
-      <UserList users={users} onRemove={onRemove} onToggle={onToggle} />
+      <UserList users={users} onToggle={onToggle} onRemove={onRemove} />
       <div>활성사용자 수 : {count}</div>
     </>
   );
