@@ -13,14 +13,14 @@ function UserGreeting(props: Types) {
   );
 }
 
-function GuestGreeting(props: Types) {
+function GuestGreeting() {
   return <h1>Please Sign Up.</h1>;
 }
 
 function Greeting(): React.ReactElement {
   const isLoggedIn = true;
 
-  return <>{isLoggedIn ? <UserGreeting name={''} count={2} /> : null}</>;
+  return <>{isLoggedIn ? <UserGreeting name={''} count={2} /> : <GuestGreeting />}</>;
 }
 
 export default Greeting;
