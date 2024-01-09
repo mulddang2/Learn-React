@@ -1,6 +1,8 @@
-import Extraction from './pages/2-5/Extraction';
+import ClassClock from './pages/2-6/ClassClock.jsx';
 
 function BasePage() {
+  /* 
+  NOTE: 2-5 예제 데이터
   const comment = {
     date: new Date(),
     text: 'I hope you enjoy learning React!',
@@ -9,14 +11,10 @@ function BasePage() {
       avatarUrl: 'http://placekitten.com/g/64/64',
     },
   };
+  */
   return (
     <>
-      <Extraction
-        avatarUrl={comment.author.avatarUrl}
-        name={comment.author.name}
-        date={comment.date}
-        text={comment.text}
-      />
+      <ClassClock />
     </>
   );
 }
