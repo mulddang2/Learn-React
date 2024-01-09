@@ -1,4 +1,4 @@
-import ClassClock from './pages/2-6/ClassClock.jsx';
+import Event from "./pages/2-7/Event";
 
 function BasePage() {
   /* 
@@ -14,7 +14,7 @@ function BasePage() {
   */
   return (
     <>
-      <ClassClock />
+      <Event />
     </>
   );
 }
