@@ -1,4 +1,4 @@
-import Event from "./pages/2-7/Event";
+import Greeting from "./pages/2-8/Greeting";
 
 function BasePage() {
   /* 
@@ -14,7 +14,7 @@ function BasePage() {
   */
   return (
     <>
-      <Event />
+      <Greeting />
     </>
   );
 }
