@@ -1,4 +1,4 @@
-import List from "./pages/2-9/List";
+import Controlled from './pages/2-10/Controlled';
 
 function BasePage() {
   /* 
@@ -14,7 +14,7 @@ function BasePage() {
   */
   return (
     <>
-      <List />
+      <Controlled />
     </>
   );
 }
