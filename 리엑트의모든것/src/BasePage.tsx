@@ -1,4 +1,5 @@
-import Calculator from './pages/2-11/Calculator';
+import Composite from './pages/2-12/Composite';
+import Specialize from './pages/2-12/Specialize';
 
 function BasePage() {
   /* 
@@ -14,7 +15,8 @@ function BasePage() {
   */
   return (
     <>
-      <Calculator />
+      <Composite />
+      <Specialize />
     </>
   );
 }
