@@ -1,4 +1,4 @@
-import Controlled from './pages/2-10/Controlled';
+import Calculator from './pages/2-11/Calculator';
 
 function BasePage() {
   /* 
@@ -14,7 +14,7 @@ function BasePage() {
   */
   return (
     <>
-      <Controlled />
+      <Calculator />
     </>
   );
 }
