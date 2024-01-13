@@ -1,5 +1,4 @@
-import Composite from './pages/2-12/Composite';
-import Specialize from './pages/2-12/Specialize';
+import FilterableProductTable from './pages/2-13/FilterableProductTable';
 
 function BasePage() {
   /* 
@@ -15,8 +14,7 @@ function BasePage() {
   */
   return (
     <>
-      <Composite />
-      <Specialize />
+      <FilterableProductTable />
     </>
   );
 }
