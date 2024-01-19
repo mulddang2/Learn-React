@@ -1,39 +1,19 @@
 /* eslint-disable react/prop-types */
 
-import { getImageUrl } from './passing-props/util';
-import './App.css'
-
-export default function Profile() {
+function Item({ name, isPacked}) {
   return (
-    <Card>
-      <Avatar
-        size={200}
-        object={{
-          name: 'coffee',
-          imageId: '4LSgDpX',
-        }}
-      />
-    </Card>
-  );
+    <li className="item">{name} {isPacked && '✅'}</li>
+  )
 }
-
-function Avatar({ object, size }) {
+export default function PackingList() {
   return (
-    <img
-      src={getImageUrl(object)}
-      className='avatar'
-      alt='object.name'
-      style={
-        {
-          width: size,
-          height: 'auto',
-        }
-      }
-
-    />
+    <section>
+      <h1>여행 짐싸기</h1>
+      <ul>
+        <Item name='칫솔 & 치약' isPacked={true}/>
+        <Item name='폼클렌저' isPacked={true}/>
+        <Item name='수딩크림' isPacked={false}/>
+      </ul>
+    </section>
   );
-}
-
-function Card({ children }) {
-  return <div className='card'>{children}</div>;
 }
