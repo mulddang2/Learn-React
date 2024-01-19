@@ -1,18 +1,22 @@
-/* eslint-disable react/prop-types */
+import './App.css'
+import { people } from './rendering-lists/data';
+import { getImageUrl } from './rendering-lists/util';
 
-function Item({ name, isPacked}) {
-  return (
-    <li className="item">{name} {isPacked && '✅'}</li>
-  )
-}
-export default function PackingList() {
+export default function List() {
+  const listItem = people.map((person) => (
+    <li key={person.id}>
+      <img src={getImageUrl(person)} className='list_img' alt={person.name} />
+      <p>
+        <b>{person.name}:</b> {person.profession} known for{' '}
+        {person.accomplishment}
+      </p>
+    </li>
+  ));
   return (
     <section>
-      <h1>여행 짐싸기</h1>
-      <ul>
-        <Item name='칫솔 & 치약' isPacked={true}/>
-        <Item name='폼클렌저' isPacked={true}/>
-        <Item name='수딩크림' isPacked={false}/>
+      <h1>Scientists</h1>
+      <ul className='people'>
+        {listItem}
       </ul>
     </section>
   );
