@@ -3,3 +3,30 @@
   list-style: none;
 }
 
+h2,
+p {
+  margin: 0;
+}
+
+.head-title {
+  margin-bottom: 27px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.head-contents {
+  color: #333;
+  text-align: center;
+}
+
+.main-title {
+  padding: 8px 0 8px 8px;
+}
+
+.head-subtitle {
+  color: #999;
+  font-size: 16px;
+  margin-top: 2px;
+}
